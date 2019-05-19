@@ -1,11 +1,14 @@
 #!/bin/bash
 
-if [ $# = 2 ]; then
-	onedrive_dir=$1
-	filename=$2
-else
+if [ $# -eq 0 ]; then
+	echo "usage: upload.sh [onedrive_dir] [local_file]"
+	exit 1
+elif [ $# -eq 1 ]; then
 	onedrive_dir=/Downloads
 	filename=$1
+else
+	onedrive_dir=$1
+	filename=$2
 fi
 
 read -e -p " 是否删除本地文件 [y/n]:" is_delete
