@@ -8,6 +8,7 @@ else
 	filename=$1
 fi
 
+read -e -p " 是否删除本地文件 [y/n]:" is_delete
 echo "uploding $filename to ${onedrive_dir}"
 
 if [ -d "$filename" ]; then
@@ -20,7 +21,9 @@ fi
 
 if [ $? -eq 0 ]; then
     echo "upload successed."
-    rm -rf "$filename"
+    if [ "$is_delete" = "y"]; then
+    	rm -rf "$filename"
+    fi
 else
     echo "upload failed."
 fi
