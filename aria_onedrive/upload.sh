@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# = 2]; then
+if [ $# = 2 ]; then
 	onedrive_dir=$1
 	filename=$2
 else
@@ -21,7 +21,7 @@ fi
 
 if [ $? -eq 0 ]; then
     echo "upload successed."
-    if [ "$is_delete" = "y"]; then
+    if [ "$is_delete" = "y" ]; then
     	rm -rf "$filename"
     fi
 else
