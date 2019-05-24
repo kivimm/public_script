@@ -47,13 +47,13 @@ upload_current_dir_all()
         if [ -d "$file_name" ]; then
             file=`basename "$file_name"`
             echo "dir: $file"
-            #echo "uploading dir:${file} to ${upload_dir}>>"
+            # echo "uploading dir:${file} to ${upload_dir}>>"
             upload "${upload_dir}" "${file_name}"
         elif [[ -f $file_name ]]; then
             file=`basename "$file_name"`
             echo "file: $file"
-            if [ "${file}" = "`basename "$0"`" ]; then
-                #echo "uploading file:${file} to ${upload_dir}>>"
+            if [ "${file}" != "`basename "$0"`" ]; then
+                # echo "uploading file:${file} to ${upload_dir}>>"
                 upload "${upload_dir}" "${file_name}"
             fi
         fi
@@ -77,4 +77,17 @@ function ergodic(){
     done
 }
 
-upload_current_dir_all
+if [ $# -eq 0 ]; then
+    echo "upload current all files."
+    upload_current_dir_all
+elif [[ $# -eq 1 ]]; then
+    folder_name=`basename "$PWD"`
+    echo "current dir: ${folder_name}"
+    upload_path="/Videos/${folder_name}"
+    echo "upload file $1 to ${upload_path}"
+    upload "${upload_path}" "$1"
+elif [[ $# -eq 2 ]]; then
+    echo "upload file $2 to $1"
+    upload "$1" "$2"
+fi
+
