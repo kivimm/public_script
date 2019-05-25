@@ -1,5 +1,7 @@
 #!/bin/bash
 
+default_upload_path=""
+
 upload()
 {
     if [ $# -eq 0 ]; then
@@ -39,21 +41,25 @@ upload()
 upload_current_dir_all()
 {
     current_path="$PWD"
-    current_folder_name=`basename "$current_path"`
-    echo "current dir: ${current_folder_name}"
-    upload_dir="/Videos/${current_folder_name}"
+    if [ -z "$default_upload_path" ]; then
+        current_folder_name=`basename "$current_path"`
+        echo "current dir: ${current_folder_name}"
+        upload_dir="/Downloads/${current_folder_name}"
+    else
+        upload_dir="$default_upload_path"
+    fi
 
     for file_name in "${current_path}"/*; do
         if [ -d "$file_name" ]; then
             file=`basename "$file_name"`
             echo "dir: $file"
-            # echo "uploading dir:${file} to ${upload_dir}>>"
+            echo "uploading dir:${file} to ${upload_dir}>>"
             upload "${upload_dir}" "${file_name}"
         elif [[ -f $file_name ]]; then
             file=`basename "$file_name"`
             echo "file: $file"
             if [ "${file}" != "`basename "$0"`" ]; then
-                # echo "uploading file:${file} to ${upload_dir}>>"
+                echo "uploading file:${file} to ${upload_dir}>>"
                 upload "${upload_dir}" "${file_name}"
             fi
         fi
@@ -83,7 +89,7 @@ if [ $# -eq 0 ]; then
 elif [[ $# -eq 1 ]]; then
     folder_name=`basename "$PWD"`
     echo "current dir: ${folder_name}"
-    upload_path="/Videos/${folder_name}"
+    upload_path="/Downloads/${folder_name}"
     echo "upload file $1 to ${upload_path}"
     upload "${upload_path}" "$1"
 elif [[ $# -eq 2 ]]; then
